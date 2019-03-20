@@ -71,6 +71,7 @@ class sc_cthread_process;
 class sc_thread_process;
 class sc_reset_finder;
 
+extern sc_simcontext* sc_get_curr_simcontext();
 
 template< typename > class sc_plist;
 typedef sc_plist< sc_process_b* > sc_process_list;
@@ -136,6 +137,13 @@ SC_API sc_time sc_time_to_pending_activity( const sc_simcontext* );
 
 struct sc_invoke_method; 
 
+SC_API void    sc_suspend_all( sc_simcontext* csc = sc_get_curr_simcontext() );
+SC_API void    sc_unsuspend_all( sc_simcontext* csc = sc_get_curr_simcontext() );
+SC_API void    sc_unsuspendable();
+SC_API void    sc_suspendable();
+
+struct sc_invoke_method; 
+
 // ----------------------------------------------------------------------------
 //  CLASS : sc_simcontext
 //
@@ -172,6 +180,10 @@ class SC_API sc_simcontext
     friend SC_API sc_time sc_time_to_pending_activity( const sc_simcontext* );
     friend SC_API bool sc_pending_activity_at_current_time( const sc_simcontext* );
     friend SC_API bool sc_pending_activity_at_future_time( const sc_simcontext* );
+    friend SC_API void sc_suspend_all(sc_simcontext*);
+    friend SC_API void sc_unsuspend_all(sc_simcontext*);
+    friend SC_API void sc_unsuspendable();
+    friend SC_API void sc_suspendable();
 
     enum sc_signal_write_check
     {
@@ -399,6 +411,8 @@ private:
 
     sc_reset_finder*            m_reset_finder_q; // Q of reset finders to reconcile.
 
+    int                         m_suspend;
+    int                         m_unsuspendable;
 private:
 
     // disabled
