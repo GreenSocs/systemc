@@ -1818,8 +1818,8 @@ void vcd_print_scopes(FILE *fp, std::vector<vcd_trace*>& traces) {
            vcd_trace_file functions
  *****************************************************************************/
 
-vcd_trace_file::vcd_trace_file(const char *name)
-  : sc_trace_file_base( name, "vcd" )
+vcd_trace_file::vcd_trace_file(const char *name, bool unbuffered)
+  : sc_trace_file_base( name, "vcd", unbuffered )
   , vcd_name_index(0)
   , previous_time_units_low(0)
   , previous_time_units_high(0)
@@ -2072,7 +2072,12 @@ vcd_trace_file::cycle(bool this_is_a_delta_cycle)
         }
     }
     // Put another newline after all values are printed
-    if(time_printed) std::fputc('\n', fp);
+    if(time_printed) {
+        std::fputc('\n', fp);
+        if (is_unbuffered()) {
+            std::fflush(fp);
+        }
+    }
 }
 
 bool vcd_trace_file::get_time_stamp(sc_trace_file_base::unit_type &now_units_high,
@@ -2215,9 +2220,9 @@ remove_vcd_name_problems(vcd_trace const* vcd, std::string& name)
 // ----------------------------------------------------------------------------
 
 SC_API sc_trace_file*
-sc_create_vcd_trace_file(const char * name)
+sc_create_vcd_trace_file(const char * name, bool unbuffered)
 {
-    sc_trace_file * tf = new vcd_trace_file(name);
+    sc_trace_file * tf = new vcd_trace_file(name, unbuffered);
     return tf;
 }
 

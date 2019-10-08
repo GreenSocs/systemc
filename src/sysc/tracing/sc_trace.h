@@ -353,13 +353,15 @@ SC_API void tprintf( sc_trace_file* tf,  const char* format, ... );
 
 // ----------------------------------------------------------------------------
 // Create VCD file
-extern SC_API sc_trace_file *sc_create_vcd_trace_file(const char* name);
+extern SC_API sc_trace_file *sc_create_vcd_trace_file(const char* name,
+						      bool unbuffered = false);
 extern SC_API void sc_close_vcd_trace_file( sc_trace_file* tf );
 
 
 // ----------------------------------------------------------------------------
 // Create WIF file
-extern SC_API sc_trace_file *sc_create_wif_trace_file(const char *name);
+extern SC_API sc_trace_file *sc_create_wif_trace_file(const char *name,
+						      bool unbuffered = false);
 extern SC_API void sc_close_wif_trace_file( sc_trace_file* tf );
 
 } // namespace sc_core

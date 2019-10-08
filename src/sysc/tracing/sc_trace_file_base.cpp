@@ -61,7 +61,8 @@ namespace sc_core {
 bool sc_trace_file_base::tracing_initialized_ = false;
 
 
-sc_trace_file_base::sc_trace_file_base( const char* name, const char* extension )
+sc_trace_file_base::sc_trace_file_base( const char* name, const char* extension,
+                                        bool unbuffered )
   : sc_trace_file()
 #if SC_TRACING_PHASE_CALLBACKS_
   , sc_object( sc_gen_unique_name("$$$$kernel_tracefile$$$$") )
@@ -73,6 +74,7 @@ sc_trace_file_base::sc_trace_file_base( const char* name, const char* extension 
   , filename_()
   , initialized_(false)
   , trace_delta_cycles_(false)
+  , unbuffered_(unbuffered)
 {
     if( !name || !*name ) {
         SC_REPORT_ERROR( SC_ID_TRACING_FOPEN_FAILED_, "no name given" );
@@ -332,6 +334,11 @@ sc_trace_file_base::fs_unit_to_str(sc_trace_file_base::unit_type tu)
     SC_REPORT_ERROR( SC_ID_TRACING_INVALID_TIMESCALE_UNIT_,
                      ss.str().c_str() );
     return "";
+}
+
+bool sc_trace_file_base::sc_trace_file_base::is_unbuffered() const
+{
+    return unbuffered_;
 }
 
 // obtain formatted time string

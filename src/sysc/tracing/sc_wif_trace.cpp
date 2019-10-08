@@ -1546,8 +1546,8 @@ typedef wif_T_trace<sc_dt::sc_lv_base> wif_sc_lv_trace;
 //***********************************************************************
 
 
-wif_trace_file::wif_trace_file(const char * name)
-  : sc_trace_file_base( name, "awif" )
+wif_trace_file::wif_trace_file(const char * name, bool unbuffered)
+  : sc_trace_file_base( name, "awif", unbuffered )
   , wif_name_index(0)
   , previous_units_low(0)
   , previous_units_high(0)
@@ -1835,6 +1835,9 @@ wif_trace_file::cycle(bool this_is_a_delta_cycle)
 
     if(time_printed) {
         std::fprintf(fp, "\n");     // Put another newline
+        if (is_unbuffered()) {
+            std::fflush(fp);
+        }
         // We update previous_time_units only when we print time because
         // this field stores the previous time that was printed, not the
         // previous time this function was called
@@ -1902,9 +1905,9 @@ map_sc_logic_state_to_wif_state(char in_char)
 
 // Create the trace file
 SC_API sc_trace_file*
-sc_create_wif_trace_file(const char * name)
+sc_create_wif_trace_file(const char * name, bool unbuffered)
 {
-    sc_trace_file *tf = new wif_trace_file(name);
+    sc_trace_file *tf = new wif_trace_file(name, unbuffered);
     return tf;
 }
 

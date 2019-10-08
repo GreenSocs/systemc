@@ -76,7 +76,7 @@ public:
 
     // Create a wif trace file.
     // `Name' forms the base of the name to which `.awif' is added.
-    explicit wif_trace_file(const char *name);
+    explicit wif_trace_file(const char *name, bool unbuffered);
 
     ~wif_trace_file();
 

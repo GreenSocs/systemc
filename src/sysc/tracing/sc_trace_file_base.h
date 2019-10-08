@@ -83,7 +83,8 @@ public:
     virtual void set_time_unit( double v, sc_time_unit tu);
 
 protected:
-    sc_trace_file_base( const char* name, const char* extension );
+    sc_trace_file_base( const char* name, const char* extension,
+                        bool unbuffered );
 
     // returns true, if trace file is already initialized
     bool is_initialized() const;
@@ -114,6 +115,8 @@ protected:
 
     static std::string fs_unit_to_str(sc_trace_file_base::unit_type tu);
 
+    bool is_unbuffered() const;
+
 #if SC_TRACING_PHASE_CALLBACKS_
 private:
     virtual void simulation_phase_callback();
@@ -130,6 +133,7 @@ private:
     std::string filename_;             // name of the file (for reporting)
     bool        initialized_;          // tracing started?
     bool        trace_delta_cycles_;   // also trace delta transitions?
+    bool        unbuffered_;           // unbuffered tracing?
 
     static bool tracing_initialized_;  // shared setup of tracing implementation
 

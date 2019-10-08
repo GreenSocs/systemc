@@ -80,7 +80,7 @@ public:
 
     // Create a Vcd trace file.
     // `Name' forms the base of the name to which `.vcd' is added.
-    vcd_trace_file(const char *name);
+    vcd_trace_file(const char *name, bool unbuffered);
 
     // Flush results and close file.
     ~vcd_trace_file();
