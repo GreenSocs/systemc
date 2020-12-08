@@ -95,6 +95,12 @@ _Accellera, Accellera Systems Initiative and SystemC are trademarks of
  Accellera Systems Initiative Inc. All other trademarks and trade names
  are the property of their respective owners._
 
+GreenSocs patched version
+-------------------------
+  This version of SystemC is forked from the Accellera git release, but has additional patches applied
+  * 'suspendability' see : https://github.com/OSCI-WG/systemc/pull/353
+  Note, use ENABLE_SUSPEND_ALL to enable this functioanlity
+
 [1]: https://accellera.org
 [2]: https://ieeexplore.ieee.org/document/6134619/
 [3]: https://accellera.org/activities/working-groups/systemc-language
